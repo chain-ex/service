@@ -1,0 +1,8 @@
+steps:
+  - name: node:12
+    entrypoint: yarn
+    args: ["install", "--production"]
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: ["app", "deploy", "prodservice.yaml"]
+timeout: "1600s"
+tags: ["production", "service"]

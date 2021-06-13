@@ -1,0 +1,907 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "description": "tubu.io API Public Documentation - ",
+    "version": "0.2.0",
+    "title": "TUBU.IO Public API",
+    "contact": {
+      "email": "dev@tubu.io"
+    }
+  },
+  "tags": [
+    {
+      "name": "API",
+      "description": "API System"
+    },
+    {
+      "name": "Auth",
+      "description": "Authorization System"
+    },
+    {
+      "name": "Integration",
+      "description": "Integration with Deployed Contract"
+    }
+  ],
+  "security": [
+    {
+      "IntApiKey": []
+    }
+  ],
+  "paths": {
+    "/version": {
+      "get": {
+        "tags": ["API"],
+        "summary": "Get current API version",
+        "description": "",
+        "operationId": "getAPIVersion",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "env": { "type": "string" },
+                            "version": { "type": "string" }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "error": "object",
+            "message": "string"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logs user into the system",
+        "description": "",
+        "operationId": "loginUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "description": "The user name for login",
+                    "example": "tubuarge",
+                    "required": true,
+                    "type": "string"
+                  },
+                  "password": {
+                    "description": "The password for login in clear text",
+                    "example": "tuBu@rge!!",
+                    "required": true,
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request with error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "error": "object",
+                  "message": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register user into the system and returns a token for authorization",
+        "description": "",
+        "operationId": "register",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "User's name",
+                    "example": "tubu",
+                    "required": true,
+                    "type": "string"
+                  },
+                  "surname": {
+                    "description": "User's surname",
+                    "example": "arge",
+                    "required": true,
+                    "type": "string"
+                  },
+                  "email": {
+                    "description": "User's email address",
+                    "example": "dev@tubu.io",
+                    "required": true,
+                    "type": "string"
+                  },
+                  "username": {
+                    "description": "The user name for login",
+                    "example": "tubuarge",
+                    "required": true,
+                    "type": "string"
+                  },
+                  "password": {
+                    "description": "The password for login in clear text",
+                    "example": "tuBu@rge!!",
+                    "required": true,
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request with error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "error": "object",
+                  "message": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/forgot": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Send a recover email to reset user password",
+        "description": "",
+        "operationId": "forgot",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "description": "User's email address",
+                    "example": "dev@tubu.io",
+                    "required": true,
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "properties": {}
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request with error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "error": "object",
+                  "message": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/verify": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Email verification of new user",
+        "description": "",
+        "operationId": "emailVerify",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "token",
+            "description": "Email token to verify user",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request with error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "error": "object",
+                  "message": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/check": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Check token verification by existing and expired date",
+        "description": "",
+        "operationId": "checkToken",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "description": "Token for email verification or reset password",
+                    "required": true,
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "boolean",
+                          "description": "Vertification status of token"
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "If status is false, reason"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request with error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "error": "object",
+                  "message": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/reset": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Reset user password by using token",
+        "description": "",
+        "operationId": "resetPassword",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "resetToken": {
+                    "description": "Token for reset password",
+                    "required": true,
+                    "type": "string"
+                  },
+                  "newPassword": {
+                    "description": "New user password",
+                    "required": true,
+                    "type": "string"
+                  },
+                  "newPasswordSame": {
+                    "description": "Same new user password",
+                    "required": true,
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request with error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "error": "object",
+                  "message": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/int/events/{eventName}/{shortID}":{
+      "post":{
+        "tags":["Integration"],
+        "summary": "Get past events of a contract",
+        "operationId":"getContractEvents",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filter": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters":[
+          {
+            "$ref": "#/components/parameters/eventName"
+          },
+          {
+            "$ref": "#/components/parameters/shortID"
+          }
+        ],
+
+        "responses":{
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }   
+          },      
+          "400": {
+            "error": "object",
+            "message": "string"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/int/events/{eventName}/{shortID}/{tag}":{
+      "post":{
+        "tags":["Integration"],
+        "summary": "Get past events of a contract",
+        "operationId":"getContractEventsTag",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filter": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters":[
+          {
+            "$ref": "#/components/parameters/eventName"
+          },
+          {
+            "$ref": "#/components/parameters/shortID"
+          },
+          {
+            "$ref":"#/components/parameters/tag"
+          }
+        ],
+
+        "responses":{
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }   
+          },      
+          "400": {
+            "error": "object",
+            "message": "string"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/int/{shortID}/{method}": {
+      "post": {
+        "tags": ["Integration"],
+        "summary": "Send transaction by invoking an function",
+        "operationId": "sendContractMethod",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/shortID"
+          },
+          {
+            "$ref": "#/components/parameters/method"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "args": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "account": {
+                    "type": "string",
+                    "description": "Default use the owner address"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully renewed apiKey",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "string",
+                      "description": "Transaction Hash"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request with error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "error": "object",
+                  "message": "string"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "IntApiKey": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["Integration"],
+        "summary": "Call an return function",
+        "operationId": "callContractMethod",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/shortID"
+          },
+          {
+            "in": "query",
+            "name": "account",
+            "description": "Sender Account Address, default owner address",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "args",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/method"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "error": "object",
+            "message": "string"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "IntApiKey": []
+          }
+        ]
+      }
+    },
+    "/int/{shortID}/{method}/{tag}": {
+      "post": {
+        "tags": ["Integration"],
+        "summary": "Send transaction by invoking an function",
+        "operationId": "sendContractMethodWithTag",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/shortID"
+          },
+          {
+            "$ref": "#/components/parameters/method"
+          },
+          {
+            "$ref": "#/components/parameters/tag"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "args": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "account": {
+                    "type": "string",
+                    "description": "Default use the owner address"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully renewed apiKey",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "string",
+                      "description": "Transaction Hash"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request with error message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "error": "object",
+                  "message": "string"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "IntApiKey": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["Integration"],
+        "summary": "Call an return function",
+        "operationId": "callContractMethodTag",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/shortID"
+          },
+          {
+            "$ref": "#/components/parameters/tag"
+          },
+          {
+            "in": "query",
+            "name": "account",
+            "description": "Sender Account Address, default owner address",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "args",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/method"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "error": "object",
+            "message": "string"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "IntApiKey": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "IntApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "ApiKey"
+      }
+    },
+    "responses": {
+      "400Resp": {
+        "description": "Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Error message"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "tag": {
+        "in": "path",
+        "name": "tag",
+        "description": "Contract version tag",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "shortID": {
+        "in": "path",
+        "name": "shortID",
+        "description": "Short ID for contract",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "eventName": {
+        "in": "path",
+        "name": "eventName",
+        "description": "Event name for contract",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "method": {
+        "in": "path",
+        "name": "method",
+        "description": "Deployed Contract Method",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

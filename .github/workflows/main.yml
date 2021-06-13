@@ -1,0 +1,39 @@
+name: Testing
+on: [push]
+
+jobs:
+  # Label of the runner job
+  runner-job:
+    # You must use a Linux environment when using service containers or container jobs
+    runs-on: ubuntu-latest
+
+    # Service containers to run with `runner-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: asdqwe1234
+          POSTGRES_DB: tubu_io_test
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+
+    steps:
+      # Downloads a copy of the code in your repository before running CI tests
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install yarn
+        run: sudo npm install -g yarn
+
+      - name: Install dependencies with yarn
+        run: yarn install
+
+      - name: Run Test
+        run: yarn test
+
+        env:
+          NODE_ENV: test

@@ -1,0 +1,14 @@
+{
+    "apps": [
+        {
+            "name": "app",
+            "script": "npm",            
+            "args" : "start",    
+            "env": {
+            "NODE_ENV": "production"
+            },
+            "instances" : "max",
+            "exec_mode" : "cluster"
+        }
+    ]
+}

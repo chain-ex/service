@@ -1,0 +1,11 @@
+/node_modules/
+package-lock.json
+yarn.lock
+package-lock.json
+.vscode
+*.log
+.vscode/settings.json
+.vscode/launch.json
+development.env
+production.env
+test.env
