@@ -1,4 +1,4 @@
-# TUBU IO
+# ChainEx
 
 https://arxiv.org/abs/2103.11187
 
@@ -10,7 +10,7 @@ Autonomous codes, which are also called smart contracts, can be developed with I
 
 The underlying blockchain technologies are also evolving and it is not easy to catch all the developments. There is a need for an easy-to-use interface by which the developers can see the results of their codes. 
 
-Tubu.io decentralized application development workbench is developed to serve as an efficient way for the programmers to deploy smart contracts on the blockchain networks and interact with them easily. 
+Chainex decentralized application development workbench is developed to serve as an efficient way for the programmers to deploy smart contracts on the blockchain networks and interact with them easily. 
 
 It can also be used for teaching decentralized application programming for junior blockchain developers on blockchain testbeds. 
 
